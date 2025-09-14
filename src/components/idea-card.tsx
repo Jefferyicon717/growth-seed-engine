@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Lightbulb, Target, Rocket, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { Lightbulb, Target, Rocket, Zap, Copy } from "lucide-react";
 
 export interface Idea {
   id: string;
@@ -19,6 +21,24 @@ interface IdeaCardProps {
 }
 
 export const IdeaCard = ({ idea, variant = "full" }: IdeaCardProps) => {
+  const { toast } = useToast();
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: "Copied to clipboard!",
+        description: "AI starter prompt has been copied.",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const pillars = [
     {
       icon: Target,
@@ -88,11 +108,23 @@ export const IdeaCard = ({ idea, variant = "full" }: IdeaCardProps) => {
             const Icon = pillar.icon;
             return (
               <div key={index} className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg bg-background border ${pillar.color}`}>
-                    <Icon className="h-5 w-5" />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`p-2 rounded-lg bg-background border ${pillar.color}`}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-lg font-semibold">{pillar.title}</h3>
                   </div>
-                  <h3 className="text-lg font-semibold">{pillar.title}</h3>
+                  {pillar.title === "AI Starter Prompt" && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => copyToClipboard(pillar.content)}
+                      className="h-8 w-8 p-0 hover:bg-accent"
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
                 <p className="text-foreground leading-relaxed pl-11">{pillar.content}</p>
                 {index < pillars.length - 1 && <div className="border-b border-border mt-6" />}
