@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Navigation } from "@/components/ui/navigation";
-import { IdeaCard } from "@/components/idea-card";
+import { IdeaCard, Idea } from "@/components/idea-card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getAllIdeas } from "@/data/ideas";
 import { Search } from "lucide-react";
 
 const Browse = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
   
   const allIdeas = getAllIdeas();
   
@@ -75,12 +77,24 @@ const Browse = () => {
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
               {filteredIdeas.map((idea) => (
-                <IdeaCard key={idea.id} idea={idea} variant="preview" />
+                <div key={idea.id} onClick={() => setSelectedIdea(idea)}>
+                  <IdeaCard idea={idea} variant="preview" />
+                </div>
               ))}
             </div>
           )}
         </div>
       </section>
+
+      {/* Modal for idea details */}
+      <Dialog open={!!selectedIdea} onOpenChange={() => setSelectedIdea(null)}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="sr-only">Idea Details</DialogTitle>
+          </DialogHeader>
+          {selectedIdea && <IdeaCard idea={selectedIdea} variant="full" />}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

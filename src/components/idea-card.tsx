@@ -79,26 +79,28 @@ export const IdeaCard = ({ idea, variant = "full" }: IdeaCardProps) => {
         <p className="text-muted-foreground">{idea.date}</p>
       </div>
 
-      <div className="grid gap-6 md:gap-8">
-        {pillars.map((pillar, index) => {
-          const Icon = pillar.icon;
-          return (
-            <Card key={index} className="card-shadow">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center space-x-3 text-lg">
+      <Card className="card-shadow">
+        <CardHeader className="pb-6">
+          <CardTitle className="text-2xl text-center">Startup Framework Analysis</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-8">
+          {pillars.map((pillar, index) => {
+            const Icon = pillar.icon;
+            return (
+              <div key={index} className="space-y-3">
+                <div className="flex items-center space-x-3">
                   <div className={`p-2 rounded-lg bg-background border ${pillar.color}`}>
                     <Icon className="h-5 w-5" />
                   </div>
-                  <span>{pillar.title}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <p className="text-foreground leading-relaxed">{pillar.content}</p>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+                  <h3 className="text-lg font-semibold">{pillar.title}</h3>
+                </div>
+                <p className="text-foreground leading-relaxed pl-11">{pillar.content}</p>
+                {index < pillars.length - 1 && <div className="border-b border-border mt-6" />}
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
     </div>
   );
 };

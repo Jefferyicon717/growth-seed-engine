@@ -12,21 +12,18 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="hero-gradient text-white py-16 hero-shadow">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
-            Idea of the Day
-          </h1>
-          <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
-            Daily startup ideas with actionable frameworks for aspiring founders, indie hackers, and creators
-          </p>
-        </div>
-      </section>
-
       {/* Main Content */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Idea of the Day
+            </h1>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Daily startup ideas with actionable frameworks for aspiring founders, indie hackers, and creators
+            </p>
+          </div>
+          
           <CalendarWidget 
             currentDate={currentDate} 
             onDateChange={setCurrentDate} 
